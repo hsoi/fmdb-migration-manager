@@ -29,6 +29,8 @@
 
 - (void)addColumn:(FmdbMigrationColumn *)column forTableName:(NSString *)tableName;
 
+- (void)executeRawQuery:(NSString *)query;
+
 // This init method exists for the purposes of unit testing.
 // Production code should never call this method, instead instantiate
 // your subclasses with +migration method.

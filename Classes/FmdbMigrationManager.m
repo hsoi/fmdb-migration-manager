@@ -25,7 +25,7 @@
 	return manager;
 }
 
-+ (id)executeForDatabasePath:(NSString *)aPath withMigrations:(NSArray *)migrations andMatchVersion:(NSInteger)aVersion
++ (id)executeForDatabasePath:(NSString *)aPath withMigrations:(NSArray *)migrations andMatchVersion:(NSUInteger)aVersion
 {
 	FmdbMigrationManager *manager = [[[self alloc] initWithDatabasePath:aPath] autorelease];
 	manager.migrations = migrations;
@@ -38,7 +38,7 @@
 	[self performMigrations];
 }
 
-- (void)executeMigrationsAndMatchVersion:(NSInteger)aVersion
+- (void)executeMigrationsAndMatchVersion:(NSUInteger)aVersion
 {
 	[self performMigrationsAndMatchVersion:aVersion];
 }
@@ -58,7 +58,7 @@
 
 - (void)performMigrations
 {
-	NSInteger i;
+	NSUInteger i;
 	for(i = self.currentVersion; i < [self.migrations count]; ++i) {
 		FmdbMigration *migration = [self.migrations objectAtIndex:i];
 		[migration upWithDatabase:self.db];
@@ -67,9 +67,9 @@
 	}
 }
 
-- (void)performMigrationsAndMatchVersion:(NSInteger)aVersion
+- (void)performMigrationsAndMatchVersion:(NSUInteger)aVersion
 {
-	NSInteger i;
+	NSUInteger i;
 
 	aVersion = (aVersion>self.migrations.count)?self.migrations.count:aVersion;
 
@@ -90,12 +90,12 @@
 	}
 }
 
-- (NSInteger)currentVersion
+- (NSUInteger)currentVersion
 {
 	return [db_ intForQuery:[NSString stringWithFormat:@"SELECT version FROM %@", self.schemaMigrationsTableName]];
 }
 
-- (void)recordVersionStateAfterMigrating:(NSInteger)version
+- (void)recordVersionStateAfterMigrating:(NSUInteger)version
 {
 	[db_ executeUpdate:[NSString stringWithFormat:@"UPDATE %@ SET version = ?", self.schemaMigrationsTableName], [NSNumber numberWithInteger:version]];
 }
@@ -108,7 +108,7 @@
 
 - (id)initWithDatabasePath:(NSString *)aPath
 {
-	if ([super init]) {
+	if ((self = [super init])) {
 		self.db = [FMDatabase databaseWithPath:aPath];
 		if (![db_ open]) {
 			NSLog(@"error opening the database for migration");
@@ -139,12 +139,3 @@
 	[super dealloc];
 }
 @end
-
-
-// This initialization function gets called when we import the Ruby module.
-// It doesn't need to do anything because the RubyCocoa bridge will do
-// all the initialization work.
-// The rbiphonetest test framework automatically generates bundles for
-// each objective-c class containing the following line. These
-// can be used by your tests.
-void Init_FmdbMigrationManager() { }

@@ -12,12 +12,12 @@
 @interface FmdbMigrationManager : NSObject {
 	FMDatabase *db_;
 	NSArray *migrations_;
-	NSInteger currentVersion_;
+	NSUInteger currentVersion_;
 	NSString *schemaMigrationsTableName_;
 }
 @property (retain) FMDatabase *db;
 @property (retain) NSArray *migrations;
-@property (assign,readonly) NSInteger currentVersion;
+@property (assign,readonly) NSUInteger currentVersion;
 @property (readonly) NSString *schemaMigrationsTableName;
 
 + (id)executeForDatabasePath:(NSString *)aPath withMigrations:(NSArray *)migrations;
@@ -30,11 +30,11 @@
 
 - (void)initializeSchemaMigrationsTable;
 - (void)performMigrations;
-- (void)recordVersionStateAfterMigrating:(NSInteger)version;
+- (void)recordVersionStateAfterMigrating:(NSUInteger)version;
 
 #pragma mark -
 #pragma mark Migration up to a defined version
-+ (id)executeForDatabasePath:(NSString *)aPath withMigrations:(NSArray *)migrations andMatchVersion:(NSInteger)aVersion;
-- (void)executeMigrationsAndMatchVersion:(NSInteger)aVersion;
-- (void)performMigrationsAndMatchVersion:(NSInteger)aVersion;
++ (id)executeForDatabasePath:(NSString *)aPath withMigrations:(NSArray *)migrations andMatchVersion:(NSUInteger)aVersion;
+- (void)executeMigrationsAndMatchVersion:(NSUInteger)aVersion;
+- (void)performMigrationsAndMatchVersion:(NSUInteger)aVersion;
 @end

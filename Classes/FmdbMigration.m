@@ -21,15 +21,15 @@
 
 - (void)up 
 {
-	NSLog([NSString stringWithFormat:@"%s: -up method not implemented", [self className]]);
+	NSLog(@"%@", [NSString stringWithFormat:@"%@: -up method not implemented", NSStringFromClass([self class])]);
 }
 
-- (void)down 
+- (void)down
 {
-	NSLog([NSString stringWithFormat:@"%s: -down method not implemented", [self className]]);
+	NSLog(@"%@", [NSString stringWithFormat:@"%@: -down method not implemented", NSStringFromClass([self class])]);
 }
 
-- (void)upWithDatabase:(FMDatabase *)db 
+- (void)upWithDatabase:(FMDatabase *)db
 {
 	self.db = db;
 	[self up];
@@ -69,13 +69,17 @@
 	[db_ executeUpdate:sql];
 }
 
+- (void)executeRawQuery:(NSString *)query 
+{
+	[[self db] executeUpdate:query];  
+}
 
 #pragma mark -
 #pragma mark Unit testing helpers
 
 - (id)initWithDatabase:(FMDatabase *)db 
 {
-	if ([super init]) {
+	if ((self = [super init])) {
 		self.db = db;
 		return self;
 	}
