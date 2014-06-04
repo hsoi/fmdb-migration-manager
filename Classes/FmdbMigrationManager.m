@@ -92,12 +92,12 @@
 
 - (NSUInteger)currentVersion
 {
-	return [db_ intForQuery:[NSString stringWithFormat:@"SELECT version FROM %@", self.schemaMigrationsTableName]];
+	return (NSUInteger)[db_ intForQuery:[NSString stringWithFormat:@"SELECT version FROM %@", self.schemaMigrationsTableName]];
 }
 
 - (void)recordVersionStateAfterMigrating:(NSUInteger)version
 {
-	[db_ executeUpdate:[NSString stringWithFormat:@"UPDATE %@ SET version = ?", self.schemaMigrationsTableName], [NSNumber numberWithInteger:version]];
+	[db_ executeUpdate:[NSString stringWithFormat:@"UPDATE %@ SET version = ?", self.schemaMigrationsTableName], @(version)];
 }
 
 - (NSString *)schemaMigrationsTableName
@@ -112,12 +112,13 @@
 		self.db = [FMDatabase databaseWithPath:aPath];
 		if (![db_ open]) {
 			NSLog(@"error opening the database for migration");
+            [self release];
 			return nil;
 		}
 
 		[self initializeSchemaMigrationsTable];
 
-		currentVersion_ = [db_ intForQuery:[NSString stringWithFormat:@"SELECT version FROM %@", self.schemaMigrationsTableName]];
+		currentVersion_ = (NSUInteger)[db_ intForQuery:[NSString stringWithFormat:@"SELECT version FROM %@", self.schemaMigrationsTableName]];
 		if(currentVersion_ == 0) {
 			NSInteger anyRows = [db_ intForQuery:[NSString stringWithFormat:@"SELECT count(version) FROM %@", self.schemaMigrationsTableName]];
 			if (anyRows == 0) {

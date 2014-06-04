@@ -15,10 +15,10 @@
 	NSUInteger currentVersion_;
 	NSString *schemaMigrationsTableName_;
 }
-@property (retain) FMDatabase *db;
-@property (retain) NSArray *migrations;
-@property (assign,readonly) NSUInteger currentVersion;
-@property (readonly) NSString *schemaMigrationsTableName;
+@property (retain, nonatomic) FMDatabase *db;
+@property (retain, nonatomic) NSArray *migrations;
+@property (assign,readonly, nonatomic) NSUInteger currentVersion;
+@property (readonly, nonatomic) NSString *schemaMigrationsTableName;
 
 + (id)executeForDatabasePath:(NSString *)aPath withMigrations:(NSArray *)migrations;
 

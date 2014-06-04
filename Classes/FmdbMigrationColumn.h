@@ -14,9 +14,9 @@
 	NSString *columnType_;
 	id defaultValue_;
 }
-@property (retain) NSString *columnName;
-@property (retain) NSString *columnType;
-@property (retain) id defaultValue;
+@property (retain, nonatomic) NSString *columnName;
+@property (retain, nonatomic) NSString *columnType;
+@property (retain, nonatomic) id defaultValue;
 
 + (FmdbMigrationColumn*)columnWithColumnName:(NSString*)columnName
                                   columnType:(NSString*)columnType;
